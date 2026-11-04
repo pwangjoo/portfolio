@@ -56,7 +56,7 @@ export const experiences: Experience[] = [
     end: "2025.05",
     developer: true,
     tasks: [
-      { title: "전체 개발 총괄 / 플랫폼 개발 / 시스템 QA", stack: ["React Native", "Node.js", "GitHub"] },
+      { title: "전체 개발 총괄 / 플랫폼 개발 / 시스템 QA", stack: ["React Native", "NodeJS", "GitHub"] },
       { title: "서버 운영", stack: ["AWS EC2", "MySQL"] },
     ],
   },
@@ -298,8 +298,8 @@ export const skillGroups: { title: string; skills: Skill[] }[] = [
   {
     title: "Frontend",
     skills: [
-      { name: "React", icon: "/skills/react-native.svg", level: 4 },
-      { name: "React Native (EAS)", icon: "/skills/react-native.svg", level: 4 },
+      { name: "React", icon: "/skills/react.svg", level: 4 },
+      { name: "React Native (EAS)", icon: "/skills/expo.svg", level: 4, invertOnDark: true },
     ],
   },
   {
@@ -313,8 +313,8 @@ export const skillGroups: { title: string; skills: Skill[] }[] = [
   {
     title: "Database",
     skills: [
-      { name: "PostgreSQL", icon: "/skills/postgresql.png", level: 4 },
-      { name: "MySQL", icon: "/skills/mysql.png", level: 4 },
+      { name: "PostgreSQL", icon: "/skills/postgresql.svg", level: 4 },
+      { name: "MySQL", icon: "/skills/mysql.svg", level: 4 },
       { name: "Redis", icon: "/skills/redis.svg", level: 2 },
     ],
   },
@@ -331,14 +331,14 @@ export const skillGroups: { title: string; skills: Skill[] }[] = [
       { name: "Python", icon: "/skills/python.png", level: 3 },
       { name: "TensorFlow", icon: "/skills/tensorflow.svg", level: 3 },
       { name: "Colab", icon: "/skills/colab.png", level: 3 },
-      { name: "MATLAB", icon: "/skills/matlab.png", level: 2 },
+      { name: "MATLAB", icon: "/skills/matlab.svg", level: 2 },
     ],
   },
   {
     title: "Tools",
     skills: [
-      { name: "Visual Studio Code", icon: "/skills/vscode.png", level: 5 },
-      { name: "Notion", icon: "/skills/notion.png", level: 5 },
+      { name: "Visual Studio Code", icon: "/skills/vscode.svg", level: 5 },
+      { name: "Notion", icon: "/skills/notion.svg", level: 5 },
       { name: "Figma", icon: "/skills/figma.svg", level: 4 },
     ],
   },
