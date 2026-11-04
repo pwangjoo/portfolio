@@ -1,26 +1,104 @@
 @import "tailwindcss";
 
+/* 테마는 <html data-theme="light|dark">로 정한다. layout.tsx의 스크립트가 첫 페인트 전에 설정하고,
+   JS가 꺼져 있어 data-theme이 없을 때만 시스템 설정을 따른다. */
 :root {
+  color-scheme: light;
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #1f1f1f;
+  --muted: #6b6b6b;
+  --line: #e7e7e7;
+  --surface: #f7f7f5;
+  --accent: #4e3cf7;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --background: #191919;
+  --foreground: #ececec;
+  --muted: #9b9b9b;
+  --line: #2f2f2f;
+  --surface: #222222;
+  --accent: #8f83ff;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    color-scheme: dark;
+    --background: #191919;
+    --foreground: #ececec;
+    --muted: #9b9b9b;
+    --line: #2f2f2f;
+    --surface: #222222;
+    --accent: #8f83ff;
+  }
+}
+
+/* 검은색 단색 아이콘을 다크 테마에서 반전한다. */
+:root[data-theme="dark"] .invert-on-dark {
+  filter: invert(1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .invert-on-dark {
+    filter: invert(1);
+  }
+}
+
+/* 360~440px 폰에서 줄 배치를 바꾸는 기준. sm(640px)보다 작은 구간을 하나 더 둔다. */
+@theme {
+  --breakpoint-xs: 27.5rem;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-surface: var(--surface);
+  --color-accent: var(--accent);
+  --font-sans: var(--font-noto-sans-kr);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+html {
+  scroll-behavior: smooth;
+  /* height: auto로의 transition을 허용한다. */
+  interpolate-size: allow-keywords;
+}
+
+/* 프로젝트 상세 열고 닫기 애니메이션. 지원하지 않는 브라우저에서는 애니메이션 없이 바로 열린다. */
+.project-details::details-content {
+  block-size: 0;
+  overflow-y: clip;
+  opacity: 0;
+  transition:
+    block-size 0.25s ease,
+    opacity 0.2s ease,
+    content-visibility 0.25s allow-discrete;
+}
+
+.project-details[open]::details-content {
+  block-size: auto;
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-details::details-content {
+    transition: none;
+  }
+}
+
+/* Tailwind v4는 버튼 커서를 기본 화살표로 두므로, 클릭 가능한 요소에 손가락 커서를 다시 준다. */
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  summary {
+    cursor: pointer;
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  word-break: keep-all;
 }
