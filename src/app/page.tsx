@@ -15,6 +15,7 @@ import CareerText from "@/components/CareerText";
 import ProjectList from "@/components/ProjectList";
 import PeriodText from "@/components/PeriodText";
 import ThemeToggle from "@/components/ThemeToggle";
+import { asset } from "@/lib/asset";
 import type { Period } from "@/lib/career";
 
 // 정적 빌드 시점. 클라이언트 컴포넌트가 첫 렌더에서 같은 날짜로 계산하도록 넘겨준다.
@@ -81,7 +82,7 @@ function Hero() {
     <section className="grid gap-10 pt-12 md:grid-cols-[200px_1fr] md:gap-12">
       <div>
         <Image
-          src={profile.image}
+          src={asset(profile.image)}
           alt={profile.nameKo}
           width={200}
           height={200}
@@ -288,7 +289,7 @@ function SkillCard({ skill }: { skill: Skill }) {
   return (
     <div className="flex items-center gap-3 rounded-lg bg-surface px-3 py-2.5">
       <Image
-        src={skill.icon}
+        src={asset(skill.icon)}
         alt=""
         width={40}
         height={40}
