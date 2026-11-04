@@ -344,7 +344,13 @@ export const skillGroups: { title: string; skills: Skill[] }[] = [
   },
 ];
 
+// 최신 기사가 위로 오도록 둔다.
 export const news = [
+  {
+    title: "기업 영업 찍어주고, ELS 위험 골라내고… 금융 AI의 진화",
+    source: "동아일보",
+    url: "https://www.donga.com/news/Economy/article/all/20260922/134714219/2",
+  },
   {
     title: "CJ대한통운, 화물선 도착시간 예측 시스템 개발",
     source: "한국해운신문",
