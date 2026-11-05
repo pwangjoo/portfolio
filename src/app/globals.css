@@ -57,7 +57,7 @@
   --color-line: var(--line);
   --color-surface: var(--surface);
   --color-accent: var(--accent);
-  --font-sans: var(--font-noto-sans-kr);
+  --font-sans: "Noto Sans KR", ui-sans-serif, system-ui, sans-serif;
 }
 
 html {

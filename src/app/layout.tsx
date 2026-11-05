@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
-import { Noto_Sans_KR } from "next/font/google";
+// Noto Sans KR은 npm 패키지(@fontsource)로 프로젝트에 포함한다. next/font/google은 빌드 때 Google Fonts에서 받아 오는데,
+// 한글 폰트 응답의 파일 주소에 확장자가 없을 때가 있어 배포 빌드가 간헐적으로 실패했다.
+import "@fontsource/noto-sans-kr/400.css";
+import "@fontsource/noto-sans-kr/500.css";
+import "@fontsource/noto-sans-kr/600.css";
+import "@fontsource/noto-sans-kr/700.css";
 import "./globals.css";
-
-const notoSansKr = Noto_Sans_KR({
-  variable: "--font-noto-sans-kr",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
 
 export const metadata: Metadata = {
   title: "박주현 포트폴리오",
@@ -27,7 +26,7 @@ export default function RootLayout({
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
-      <body className={`${notoSansKr.variable} font-sans text-sm antialiased`}>{children}</body>
+      <body className="font-sans text-sm antialiased">{children}</body>
     </html>
   );
 }
