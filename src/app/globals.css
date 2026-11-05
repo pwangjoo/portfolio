@@ -102,3 +102,38 @@ body {
   color: var(--foreground);
   word-break: keep-all;
 }
+
+/* PDF 저장(인쇄)용 스타일. 화면 테마와 상관없이 흰 배경의 라이트 테마로 A4에 맞춘다. */
+@page {
+  size: A4;
+  margin: 14mm 14mm 16mm;
+}
+
+@media print {
+  :root,
+  :root[data-theme="dark"],
+  :root:not([data-theme]) {
+    color-scheme: light;
+    --background: #ffffff;
+    --foreground: #1f1f1f;
+    --muted: #6b6b6b;
+    --line: #e7e7e7;
+    --surface: #f7f7f5;
+    --accent: #4e3cf7;
+  }
+
+  /* 기본 인쇄는 배경색을 빼므로, 숙련도 막대와 태그 배경이 보이도록 유지한다. */
+  body {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  :root[data-theme="dark"] .invert-on-dark,
+  :root:not([data-theme]) .invert-on-dark {
+    filter: none;
+  }
+
+  .project-details::details-content {
+    transition: none;
+  }
+}

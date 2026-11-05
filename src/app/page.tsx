@@ -14,6 +14,7 @@ import type { Skill } from "@/data/portfolio";
 import CareerText from "@/components/CareerText";
 import ProjectList from "@/components/ProjectList";
 import PeriodText from "@/components/PeriodText";
+import PrintButton from "@/components/PrintButton";
 import ThemeToggle from "@/components/ThemeToggle";
 import { asset } from "@/lib/asset";
 import type { Period } from "@/lib/career";
@@ -34,13 +35,13 @@ export default function Home() {
       {/* 맨 위로 이동용 앵커. sticky 헤더는 항상 화면 안에 있어 앵커로 쓰면 스크롤되지 않는다. */}
       <div id="top" />
       <Nav />
-      <main className="mx-auto max-w-3xl px-4 pb-24 sm:px-6">
+      <main className="mx-auto max-w-3xl px-4 pb-24 sm:px-6 print:max-w-none print:px-0 print:pb-0">
         <Hero />
         <ExperienceSection />
         <ProjectsSection />
         <SkillsSection />
         <NewsSection />
-        <footer className="mt-24 flex gap-4 border-t border-line pt-6 text-xs text-muted">
+        <footer className="mt-24 flex gap-4 border-t border-line pt-6 text-xs text-muted print:hidden">
           <a href="#top" className="hover:text-accent">
             ↑ To the Top
           </a>
@@ -55,7 +56,7 @@ export default function Home() {
 
 function Nav() {
   return (
-    <header className="sticky top-0 z-10 border-b border-line bg-background/85 backdrop-blur">
+    <header className="sticky top-0 z-10 border-b border-line bg-background/85 backdrop-blur print:hidden">
       <nav className="mx-auto flex max-w-3xl items-center justify-between px-4 py-3 sm:px-6">
         <a href="#top" className="hidden font-bold text-accent sm:block">
           {profile.nameKo}
@@ -70,7 +71,10 @@ function Nav() {
               </li>
             ))}
           </ul>
-          <ThemeToggle />
+          <div className="flex items-center gap-1">
+            <PrintButton />
+            <ThemeToggle />
+          </div>
         </div>
       </nav>
     </header>
@@ -79,7 +83,7 @@ function Nav() {
 
 function Hero() {
   return (
-    <section className="grid gap-10 pt-12 md:grid-cols-[200px_1fr] md:gap-12">
+    <section className="grid gap-10 pt-12 md:grid-cols-[200px_1fr] md:gap-12 print:grid-cols-[170px_1fr] print:gap-10 print:pt-0">
       <div>
         <Image
           src={asset(profile.image)}
@@ -87,7 +91,7 @@ function Hero() {
           width={200}
           height={200}
           priority
-          className="h-40 w-40 rounded-full md:h-44 md:w-44"
+          className="h-40 w-40 rounded-full md:h-44 md:w-44 print:h-36 print:w-36"
         />
         <h1 className="mt-6 text-[22px] font-bold text-accent">{profile.name}</h1>
         <address
@@ -135,11 +139,15 @@ function Hero() {
             </InfoTip>
           }
         >
+          {/* 인쇄본에는 툴팁 대신 총 경력을 본문에 적는다. */}
+          <p className="mb-2 hidden text-xs text-muted print:block">
+            <CareerText kind="total" buildTime={buildTime} />
+          </p>
           <PeriodList items={experienceOverview} />
         </SubBlock>
 
         <SubBlock title="Education">
-          <PeriodList items={education} />
+          <PeriodList items={education.map((e) => ({ ...e, periods: [e] }))} />
         </SubBlock>
 
         <SubBlock title="Language">
@@ -172,7 +180,7 @@ function SubBlock({ title, aside, children }: { title: string; aside?: React.Rea
 // 작은 ⓘ 아이콘. 마우스를 올리거나 탭(포커스)하면 내용이 말풍선으로 뜬다.
 function InfoTip({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <span className="group relative inline-flex">
+    <span className="group relative inline-flex print:hidden">
       <button
         type="button"
         aria-label={label}
@@ -195,14 +203,14 @@ function InfoTip({ label, children }: { label: string; children: React.ReactNode
   );
 }
 
-function PeriodList({ items }: { items: (Period & { label: string; note?: string })[] }) {
+function PeriodList({ items }: { items: { label: string; note?: string; periods: Period[] }[] }) {
   return (
     <ul className="space-y-1">
       {items.map((item) => (
         <li key={item.label} className="flex flex-col xs:flex-row xs:flex-wrap xs:justify-between xs:gap-x-4">
           <span>• {item.label}</span>
           <span className="text-xs tabular-nums text-muted">
-            <PeriodText period={item} note={item.note} buildTime={buildTime} />
+            <PeriodText periods={item.periods} note={item.note} buildTime={buildTime} />
           </span>
         </li>
       ))}
@@ -212,9 +220,9 @@ function PeriodList({ items }: { items: (Period & { label: string; note?: string
 
 function Section({ id, title, children }: { id: string; title: string; children: React.ReactNode }) {
   return (
-    <section id={id} className="mt-24 scroll-mt-20">
-      <h2 className="border-b border-line pb-3 text-[22px] font-bold text-accent">{title}</h2>
-      <div className="mt-8">{children}</div>
+    <section id={id} className="mt-24 scroll-mt-20 print:mt-10">
+      <h2 className="border-b border-line pb-3 text-[22px] font-bold text-accent print:break-after-avoid">{title}</h2>
+      <div className="mt-8 print:mt-5">{children}</div>
     </section>
   );
 }
@@ -222,7 +230,7 @@ function Section({ id, title, children }: { id: string; title: string; children:
 function ExperienceSection() {
   return (
     <Section id="experience" title="Experience">
-      <div className="space-y-12">
+      <div className="space-y-12 print:space-y-8">
         {experiences.map((exp) => (
           <article key={exp.company}>
             <div className="flex flex-col gap-0.5 border-b border-line pb-2 sm:flex-row sm:flex-wrap sm:items-baseline sm:justify-between sm:gap-x-4">
@@ -230,13 +238,24 @@ function ExperienceSection() {
               <p className="text-xs text-muted">
                 {exp.role} ·{" "}
                 <span className="tabular-nums">
-                  <PeriodText period={exp} buildTime={buildTime} />
+                  <PeriodText periods={exp.periods} buildTime={buildTime} />
                 </span>
               </p>
             </div>
+            {/* 끊긴 구간이 있으면 구간별 기간을 함께 보여준다. */}
+            {exp.periods.length > 1 && (
+              <ul className="mt-2 space-y-0.5 text-xs text-muted">
+                {exp.periods.map((p) => (
+                  <li key={p.start} className="flex gap-2 tabular-nums">
+                    {p.label && <span className="text-foreground">{p.label}</span>}
+                    <PeriodText periods={[p]} buildTime={buildTime} />
+                  </li>
+                ))}
+              </ul>
+            )}
             <ul className="mt-5 space-y-4">
               {exp.tasks.map((task) => (
-                <li key={task.title} className="border-l-2 border-line pl-4">
+                <li key={task.title} className="border-l-2 border-line pl-4 print:break-inside-avoid">
                   <p className="font-medium">{task.title}</p>
                   {task.detail && <p className="mt-1 text-xs text-muted">{task.detail}</p>}
                   {task.stack && (
@@ -271,8 +290,8 @@ function SkillsSection() {
     <Section id="skills" title="Skills">
       <div className="divide-y divide-line border-b border-line">
         {skillGroups.map((group) => (
-          <div key={group.title} className="grid gap-3 py-5 md:grid-cols-[120px_1fr] md:gap-5">
-            <h3 className="text-[13px] font-semibold text-muted md:pt-3">{group.title}</h3>
+          <div key={group.title} className="grid gap-3 py-5 md:grid-cols-[120px_1fr] md:gap-5 print:break-inside-avoid print:grid-cols-[110px_1fr] print:gap-4 print:py-3">
+            <h3 className="text-[13px] font-semibold text-muted md:pt-3 print:pt-2.5">{group.title}</h3>
             <div className="grid gap-2 sm:grid-cols-2">
               {group.skills.map((skill) => (
                 <SkillCard key={skill.name} skill={skill} />
@@ -310,7 +329,7 @@ function NewsSection() {
     <Section id="news" title="News">
       <ul className="space-y-3">
         {news.map((n) => (
-          <li key={n.url}>
+          <li key={n.url} className="print:break-inside-avoid">
             <a
               href={n.url}
               target="_blank"
@@ -319,6 +338,8 @@ function NewsSection() {
             >
               <p className="font-medium">{n.title}</p>
               <p className="mt-1 text-xs text-muted">{n.source}</p>
+              {/* 종이에서는 링크를 누를 수 없으니 주소를 적는다. */}
+              <p className="mt-1 hidden break-all text-[11px] text-muted print:block">{n.url}</p>
             </a>
           </li>
         ))}

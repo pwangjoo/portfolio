@@ -13,7 +13,7 @@ export const profile = {
 
 // {devYears}는 개발 경력으로 계산한 연차로 바뀐다.
 export const about = [
-  "{devYears}년차 Full-Stack 개발자입니다. Computer Vision & Graphics를 전공해 ML 프로젝트 기획자로 커리어를 시작했고, 대규모 프로젝트의 PM 역할을 수행했습니다. 메드고에서는 서버 운영, 주니어 개발자 관리, 시스템 QA, 기술 발표, 플랫폼 총괄 개발을 담당했으며, 현재 관악연구소에서 백엔드 개발과 DB 관리를 맡고 있습니다.",
+  "{devYears}년차 Full-Stack 개발자입니다. Computer Vision & Graphics를 전공해 ML 프로젝트 기획자로 커리어를 시작했고, 대규모 프로젝트의 PM 역할을 수행했습니다. 메드고에서는 서버 운영, 주니어 개발자 관리, 시스템 QA, 기술 발표, 플랫폼 총괄 개발을 담당했으며, 관악연구소에서는 백엔드 개발과 DB 관리를 담당했습니다.",
   "대학원에서의 연구 경험을 기반으로 넓고 깊은 지식, 대기업에서의 기획 경험을 기반으로 탄탄한 업무 설계, 스타트업에서의 실무 경험을 기반으로 빠르고 안정적인 개발, 외주 경험을 바탕으로 유연한 소통이 제 주요 장점입니다.",
 ];
 
@@ -25,11 +25,14 @@ export const education: (Period & { label: string; note?: string; countsAsCareer
 
 export const languages = [{ label: "영어", detail: "OPIc AL / TOEIC Speaking Lv.7" }];
 
-// end를 비워두면 "현재"로 표시되고 오늘까지 경력에 들어간다.
+// periods: 재직 구간 목록. 퇴사 후 재입사나 인턴→정규직 전환처럼 끊긴 기간은 구간을 나눠 적고,
+//   쉬었던 기간은 경력에서 빠진다. 구간이 둘 이상이면 회사 아래에 구간별로 표시되고, label은 선택이다.
+//   end를 비워두면 "현재"로 표시되고 오늘까지 경력에 들어간다.
 // developer: 연차("N년차 개발자") 계산에 포함할지 여부.
-export type Experience = Period & {
+export type Experience = {
   company: string;
   role: string;
+  periods: (Period & { label?: string })[];
   developer: boolean;
   // stack은 태그로, detail은 설명 텍스트로 표시된다.
   tasks: { title: string; stack?: string[]; detail?: string }[];
@@ -39,7 +42,7 @@ export const experiences: Experience[] = [
   {
     company: "관악연구소",
     role: "Backend Engineer",
-    start: "2025.06",
+    periods: [{ start: "2025.06.01", end: "2026.11.12" }],
     developer: true,
     tasks: [
       {
@@ -51,9 +54,11 @@ export const experiences: Experience[] = [
   },
   {
     company: "메드고",
-    role: "CTO",
-    start: "2021.04",
-    end: "2025.05",
+    role: "CTO · 사내이사",
+    periods: [
+      { label: "CTO", start: "2021.04.01", end: "2024.06.01" },
+      { label: "사내이사", start: "2025.01.01", end: "2025.05.31" },
+    ],
     developer: true,
     tasks: [
       { title: "전체 개발 총괄 / 플랫폼 개발 / 시스템 QA", stack: ["React Native", "NodeJS", "GitHub"] },
@@ -62,9 +67,11 @@ export const experiences: Experience[] = [
   },
   {
     company: "CJ대한통운",
-    role: "정보전략팀 사원",
-    start: "2019.07",
-    end: "2021.04",
+    role: "정보전략팀",
+    periods: [
+      { label: "인턴", start: "2019.07.01", end: "2019.09.07" },
+      { label: "사원", start: "2019.09.23", end: "2021.04.01" },
+    ],
     developer: false,
     tasks: [
       { title: "AI 프로젝트 기획 및 구현", detail: "ML을 활용한 배차 패턴 분석" },
@@ -74,11 +81,7 @@ export const experiences: Experience[] = [
 ];
 
 // 회사명·기간이 Experience와 어긋나지 않도록 experiences에서 만든다.
-export const experienceOverview = experiences.map((exp) => ({
-  label: exp.company,
-  start: exp.start,
-  end: exp.end,
-}));
+export const experienceOverview = experiences.map((exp) => ({ label: exp.company, periods: exp.periods }));
 
 // 문자열은 단일 항목, 객체는 하위 목록이 있는 항목.
 export type Bullet = string | { text: string; items: string[] };
@@ -100,8 +103,8 @@ export const projects: Project[] = [
     name: "주식 정보 조회 앱 개발 (Back-end)",
     contribution: "80%",
     areas: ["개발", "운영"],
-    start: "2026.01",
-    end: "2026.11",
+    start: "2026.01.05",
+    end: "2026.11.12",
     intro: ["관악연구소의 주식 정보 조회 앱 (GLAB) 개발"],
     roles: [
       "개발 업무 전반의 기술적 의사결정 및 협업 리딩",
@@ -116,8 +119,8 @@ export const projects: Project[] = [
     name: "이미지 생성/편집 AI 플랫폼 개발 (Back-end)",
     contribution: "100%",
     areas: ["개발"],
-    start: "2025.01",
-    end: "2026.01",
+    start: "2025.01.03",
+    end: "2026.01.02",
     intro: [
       "플랫폼 개발 및 SI 프로젝트 수행",
       { text: "LG CNS 발주 COP (Contents Optimization Platform)", items: ["생성형 AI 기반 마케팅 콘텐츠 생성 플랫폼"] },
@@ -153,8 +156,8 @@ export const projects: Project[] = [
     name: "K Bio Health Care 개발 외주 (Front-end)",
     contribution: "100%",
     areas: ["개발"],
-    start: "2024.07",
-    end: "2024.09",
+    start: "2024.07.05",
+    end: "2024.10.04",
     intro: ["건강 데이터베이스 플랫폼의 앱 → 웹 전환"],
     roles: [
       { text: "웹사이트 전반의 HTML/CSS 코드 작성", items: ["로그인 웹", "클라이언트 (유저) 웹"] },
@@ -168,8 +171,8 @@ export const projects: Project[] = [
     name: "창업성장기술개발사업 디딤돌",
     contribution: "100%",
     areas: ["AI 프로젝트", "개발", "국가과제"],
-    start: "2023.08",
-    end: "2024.10",
+    start: "2023.08.01",
+    end: "2024.10.31",
     intro: ["탈모 환자의 두피 사진으로 탈모 진행 상태 추출", "환자의 진료 요청 메시지 감정 분석", "의사 웹에 종합 리포트 제공"],
     roles: [
       "프로젝트 전반의 기술 관리",
@@ -182,8 +185,8 @@ export const projects: Project[] = [
     name: "경상북도 북부권 청년창업지원사업",
     contribution: "100%",
     areas: ["개발", "국가과제"],
-    start: "2023.03",
-    end: "2023.10",
+    start: "2023.03.21",
+    end: "2023.10.06",
     intro: ["바로필 데이터베이스 → 데이터 마켓 추출"],
     roles: ["바로필 데이터베이스 추출 및 정리", "데이터 마켓 생성", "앱 내 검색 기능 (Full-stack) 개발"],
     results: ["환자 앱 내 데이터 검색 편의성 증대", "향후 ML 활용을 위한 데이터베이스 생성"],
@@ -192,8 +195,8 @@ export const projects: Project[] = [
     name: "바로필 플랫폼 개발 (Full-stack)",
     contribution: "100%",
     areas: ["개발", "운영"],
-    start: "2021.08",
-    end: "2024.11",
+    start: "2021.08.02",
+    end: "2024.06.01",
     intro: ["메드고의 원격진료/약배달 플랫폼의 개발 및 유지보수"],
     roles: [
       {
@@ -222,8 +225,8 @@ export const projects: Project[] = [
     name: "바로필 플랫폼 외주 관리",
     contribution: "100%",
     areas: ["운영"],
-    start: "2021.04",
-    end: "2021.07",
+    start: "2021.04.01",
+    end: "2021.07.30",
     intro: ["비대면 진료 / 약배달 플랫폼 최초 개발 일정 관리"],
     roles: ["외주 상세 일정 조율", "클라이언트 (CEO) 요청 정렬 및 외주 업무 분배"],
     results: ["바로필 최초 출시까지 개발사와의 원활한 소통 주도"],
@@ -232,8 +235,8 @@ export const projects: Project[] = [
     name: "선박 도착시간 예측 (ETA)",
     contribution: "50%",
     areas: ["AI 프로젝트"],
-    start: "2020.08",
-    end: "2020.12",
+    start: "2020.08.10",
+    end: "2020.12.04",
     intro: [
       "선박의 도착 예정 시간의 집계가 무분별해 포워딩 부문 (해외 물류)의 데이터 가시성 향상에 대한 요청 수주",
       "스크래핑 및 AI 학습을 통한 물류 도착 시간 정리 및 예측 시간 제공",
@@ -254,8 +257,8 @@ export const projects: Project[] = [
     name: "송장 및 서류 인식 (OCR)",
     contribution: "50%",
     areas: ["AI 프로젝트"],
-    start: "2020.08",
-    end: "2020.11",
+    start: "2020.08.03",
+    end: "2020.11.30",
     intro: [
       "무질서하게 프린트된 항공 및 선박 운송장 (B/L) 자동 입력",
       "수기로 입력하던 서류를 자동 입력해 인건비 절감 및 정리된 데이터 확보",
@@ -276,8 +279,8 @@ export const projects: Project[] = [
     name: "ML을 활용한 배차 패턴 분석",
     contribution: "100%",
     areas: ["AI 프로젝트", "개발"],
-    start: "2019.07",
-    end: "2019.09",
+    start: "2019.07.01",
+    end: "2019.09.06",
     intro: [
       "Rule-based 자동 배차에 의존하던 기존 방식으로 인해 다수의 수작업 발생",
       "배차 패턴을 파악해 이에 준하는 자동 배차를 위한 기획 및 설계 진행",
