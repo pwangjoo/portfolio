@@ -45,7 +45,7 @@ export default function Home() {
       <Nav
         current="/"
         sections={sections}
-        pdf={{ label: "이력서 PDF 다운로드", file: "resume.pdf", downloadName: "박주현_이력서.pdf" }}
+        pdf={{ label: "이력서 PDF 다운로드", file: "resume.pdf", name: "박주현_이력서", buildTime }}
       />
       {/* 인쇄(PDF 저장) 때는 웹 화면 대신 문서형 이력서만 출력한다. */}
       <main className="mx-auto max-w-3xl px-4 pb-24 sm:px-6 print:hidden">

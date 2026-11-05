@@ -16,8 +16,8 @@ export default function Nav({
 }: {
   current: string;
   sections: { id: string; label: string }[];
-  // 다운로드 버튼이 내려받을 PDF. file은 out/ 기준 파일명, downloadName은 저장될 이름이다.
-  pdf: { label: string; file: string; downloadName: string };
+  // 다운로드 버튼이 내려받을 PDF. file은 out/ 기준 파일명, name은 저장될 이름(뒤에 기준일자가 붙는다)이다.
+  pdf: { label: string; file: string; name: string; buildTime: number };
 }) {
   return (
     <header className="sticky top-0 z-10 border-b border-line bg-background/85 backdrop-blur print:hidden">

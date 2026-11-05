@@ -19,7 +19,7 @@ import TechTags from "@/components/TechTags";
 import CvDoc from "@/components/doc/CvDoc";
 
 export const metadata: Metadata = {
-  title: "박주현 Curriculum Vitae",
+  title: "박주현 연구 이력",
   description: "박주현의 학력, 연구 프로젝트와 논문",
 };
 
@@ -43,7 +43,8 @@ export default function CvPage() {
         pdf={{
           label: "연구 이력 PDF 다운로드",
           file: "cv.pdf",
-          downloadName: "박주현_연구이력.pdf",
+          name: "박주현_연구이력",
+          buildTime,
         }}
       />
       {/* 인쇄(PDF 저장) 때는 웹 화면 대신 문서형 CV만 출력한다. */}
