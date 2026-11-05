@@ -3,8 +3,8 @@ import PrintButton from "@/components/PrintButton";
 import ThemeToggle from "@/components/ThemeToggle";
 
 const pages = [
-  { href: "/", label: "Resume" },
-  { href: "/cv/", label: "Curriculum Vitae" },
+  { href: "/", label: "이력서" },
+  { href: "/cv/", label: "연구 이력" },
 ];
 
 // 상단 메뉴. 왼쪽은 페이지 전환(Resume / Curriculum Vitae), 오른쪽은 현재 페이지의 섹션 바로가기와 버튼.
@@ -12,11 +12,12 @@ const pages = [
 export default function Nav({
   current,
   sections,
-  printLabel,
+  pdf,
 }: {
   current: string;
   sections: { id: string; label: string }[];
-  printLabel: string;
+  // 다운로드 버튼이 내려받을 PDF. file은 out/ 기준 파일명, downloadName은 저장될 이름이다.
+  pdf: { label: string; file: string; downloadName: string };
 }) {
   return (
     <header className="sticky top-0 z-10 border-b border-line bg-background/85 backdrop-blur print:hidden">
@@ -47,7 +48,7 @@ export default function Nav({
             ))}
           </ul>
           <div className="flex items-center gap-1">
-            <PrintButton label={printLabel} />
+            <PrintButton {...pdf} />
             <ThemeToggle />
           </div>
         </div>

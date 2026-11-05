@@ -49,6 +49,10 @@ jobs:
       - run: npm run build
         env:
           NEXT_PUBLIC_BASE_PATH: ${{ steps.pages.outputs.base_path }}
+      # 빌드된 사이트를 Chrome으로 인쇄해 out/resume.pdf, out/cv.pdf를 만든다(다운로드 버튼이 이 파일을 내려받는다).
+      - run: npm run pdf
+        env:
+          NEXT_PUBLIC_BASE_PATH: ${{ steps.pages.outputs.base_path }}
       - uses: actions/upload-pages-artifact@v3
         with:
           path: out

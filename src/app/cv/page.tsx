@@ -27,20 +27,28 @@ export const metadata: Metadata = {
 const buildTime = Date.now();
 
 const sections = [
-  { id: "education", label: "Education" },
-  { id: "projects", label: "Projects" },
-  { id: "publications", label: "Publications" },
-  { id: "misc", label: "Misc" },
+  { id: "education", label: "학력" },
+  { id: "projects", label: "연구" },
+  { id: "publications", label: "논문" },
+  { id: "misc", label: "기타" },
 ];
 
 export default function CvPage() {
   return (
     <>
       <div id="top" />
-      <Nav current="/cv/" sections={sections} printLabel="CV PDF로 저장" />
+      <Nav
+        current="/cv/"
+        sections={sections}
+        pdf={{
+          label: "연구 이력 PDF 다운로드",
+          file: "cv.pdf",
+          downloadName: "박주현_연구이력.pdf",
+        }}
+      />
       {/* 인쇄(PDF 저장) 때는 웹 화면 대신 문서형 CV만 출력한다. */}
       <main className="mx-auto max-w-3xl px-4 pb-24 sm:px-6 print:hidden">
-        <Section id="education" title="Education" first>
+        <Section id="education" title="학력" titleEn="EDUCATION" first>
           <ul className="space-y-4">
             {education.map((e) => (
               <li
@@ -63,7 +71,12 @@ export default function CvPage() {
           </ul>
         </Section>
 
-        <Section id="projects" title="Research Projects" compact>
+        <Section
+          id="projects"
+          title="연구 프로젝트"
+          titleEn="RESEARCH PROJECTS"
+          compact
+        >
           <div className="space-y-8">
             {researchStages.map(({ stage, label }) => (
               <div key={stage}>
@@ -137,7 +150,7 @@ export default function CvPage() {
           </div>
         </Section>
 
-        <Section id="publications" title="Publications" compact>
+        <Section id="publications" title="논문" titleEn="PUBLICATIONS" compact>
           <ul className="space-y-4">
             {publications.map((p) => (
               <li
@@ -242,7 +255,7 @@ export default function CvPage() {
           </p>
         </Section>
 
-        <Section id="misc" title="Miscellaneous" compact>
+        <Section id="misc" title="기타" titleEn="MISCELLANEOUS" compact>
           <MiscList groups={misc} />
         </Section>
 

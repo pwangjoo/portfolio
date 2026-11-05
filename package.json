@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "pdf": "node scripts/build-pdfs.mjs",
     "start": "next start",
     "lint": "eslint"
   },

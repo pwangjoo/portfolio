@@ -1,5 +1,5 @@
 // 프로젝트 이름 끝의 역할 표기. 여러 개면 쉼표로 나눈다. 예) "주식 정보 조회 앱 개발 (Backend, DBA)"
-const devRoleNames = ["Frontend", "Backend", "DBA"];
+const devRoleNames = ["Frontend", "Backend", "DBA", "Markup"];
 
 // 이름과 역할 목록을 나눈다. 괄호 안이 모두 역할이 아니면 이름을 그대로 두고 roles는 빈 배열이다.
 export function splitDevRoles(name: string): { title: string; roles: string[] } {

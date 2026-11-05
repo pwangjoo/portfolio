@@ -48,9 +48,22 @@ export function DocHeader({ title, titleEn, buildTime }: { title: string; titleE
 }
 
 // 바로 뒤가 DocFooter인 마지막 섹션은 아래 여백을 없앤다. DocFooter가 mt-auto로 바닥에 붙으므로 간격은 남는다.
-export function DocSection({ title, titleEn, children }: { title: string; titleEn: string; children: React.ReactNode }) {
+// aside: 섹션 오른쪽에 겹쳐 두는 요소. 위 구분선부터 다음 섹션 구분선까지(아래 여백 mb-3 포함) 사이의 세로 가운데에 놓인다.
+// 섹션 높이에는 영향을 주지 않으니 그 높이를 넘지 않게 크기를 잡는다.
+export function DocSection({
+  title,
+  titleEn,
+  aside,
+  children,
+}: {
+  title: string;
+  titleEn: string;
+  aside?: React.ReactNode;
+  children: React.ReactNode;
+}) {
   return (
-    <section className="mb-3 border-t-[1.5px] border-[#111] pt-1.5 [&:has(+footer)]:mb-0">
+    <section className="relative mb-3 border-t-[1.5px] border-[#111] pt-1.5 [&:has(+footer)]:mb-0">
+      {aside && <div className="absolute top-0 right-0 -bottom-3 flex flex-col items-center justify-center gap-0.5">{aside}</div>}
       <h2 className="mb-1.5 break-after-avoid text-[10.5pt] font-bold">
         {title} <span className="text-[9pt] font-medium">{titleEn}</span>
       </h2>
@@ -124,9 +137,23 @@ export function DocPersonal() {
     ["이메일", "EMAIL", profile.email],
   ];
   return (
-    <DocSection title="개인정보" titleEn="PERSONAL DETAIL">
-      <div className="flex items-stretch justify-between gap-6">
-        <div className="flex-1">
+    <DocSection
+      title="개인정보"
+      titleEn="PERSONAL DETAIL"
+      // 오른쪽이 비어 있으니 QR을 제목 줄 높이까지 올려 크게 둔다. 섹션 높이는 개인정보 줄만큼으로 다른 섹션과 같다.
+      aside={
+        <>
+          {/* PDF에서 QR을 누르면 사이트로 바로 이동한다(QR 자체는 네이버 단축 주소를 거친다). */}
+          <a href={profile.website} className="block">
+            {/* eslint-disable-next-line @next/next/no-img-element -- 인쇄 전용 정적 SVG라 next/image가 필요 없다. */}
+            <img src={asset("/qr.svg")} alt="포트폴리오 QR 코드" className="block h-[16mm] w-[16mm]" />
+          </a>
+          <span className="text-[6pt] leading-none text-[#555]">포트폴리오</span>
+        </>
+      }
+    >
+      <div>
+        <div>
           {rows.map(([ko, en, value, valueEn]) => (
             <div key={en} className="grid grid-cols-[6.75rem_1fr] gap-x-4">
               <div>
@@ -138,15 +165,6 @@ export function DocPersonal() {
               </div>
             </div>
           ))}
-        </div>
-        {/* QR이 개인정보 줄 높이를 넘지 않도록 글씨는 아래가 아니라 왼쪽에 둔다. 섹션 높이가 다른 섹션과 같은 규칙을 따른다. */}
-        <div className="flex shrink-0 items-end gap-1.5">
-          <span className="text-[6pt] tracking-wide text-[#555]">PORTFOLIO</span>
-          {/* PDF에서 QR을 누르면 사이트로 바로 이동한다(QR 자체는 네이버 단축 주소를 거친다). */}
-          <a href={profile.website} className="block">
-            {/* eslint-disable-next-line @next/next/no-img-element -- 인쇄 전용 정적 SVG라 next/image가 필요 없다. */}
-            <img src={asset("/qr.svg")} alt="포트폴리오 QR 코드" className="block h-[13mm] w-[13mm]" />
-          </a>
         </div>
       </div>
     </DocSection>

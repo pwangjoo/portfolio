@@ -115,16 +115,9 @@ export default function ResumeDoc({ buildTime }: { buildTime: number }) {
                   <DocRow
                     key={g.title}
                     left={i === 0 ? <DocLabel ko={ko} en={en} /> : null}
-                    main={
-                      category === "stack" ? (
-                        <>
-                          <span className="inline-block w-[5.5rem] text-[7.5pt] text-[#555]">{g.title}</span>
-                          {names}
-                        </>
-                      ) : (
-                        names
-                      )
-                    }
+                    main={names}
+                    // 개발 스택은 분야명(FRONTEND 등)을 기술 이름 뒤에 작은 영문으로 붙여, 다른 줄과 시작 위치를 맞춘다.
+                    sub={category === "stack" ? g.title.toUpperCase() : undefined}
                   />
                 );
               })}

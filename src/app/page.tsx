@@ -30,11 +30,11 @@ import type { Period } from "@/lib/career";
 const buildTime = Date.now();
 
 const sections = [
-  { id: "experience", label: "Experience" },
-  { id: "projects", label: "Projects" },
-  { id: "skills", label: "Skills" },
-  { id: "misc", label: "Misc" },
-  { id: "news", label: "News" },
+  { id: "experience", label: "경력" },
+  { id: "projects", label: "프로젝트" },
+  { id: "skills", label: "기술" },
+  { id: "misc", label: "기타" },
+  { id: "news", label: "언론 보도" },
 ];
 
 export default function Home() {
@@ -42,14 +42,18 @@ export default function Home() {
     <>
       {/* 맨 위로 이동용 앵커. sticky 헤더는 항상 화면 안에 있어 앵커로 쓰면 스크롤되지 않는다. */}
       <div id="top" />
-      <Nav current="/" sections={sections} printLabel="이력서 PDF로 저장" />
+      <Nav
+        current="/"
+        sections={sections}
+        pdf={{ label: "이력서 PDF 다운로드", file: "resume.pdf", downloadName: "박주현_이력서.pdf" }}
+      />
       {/* 인쇄(PDF 저장) 때는 웹 화면 대신 문서형 이력서만 출력한다. */}
       <main className="mx-auto max-w-3xl px-4 pb-24 sm:px-6 print:hidden">
         <Hero />
         <ExperienceSection />
         <ProjectsSection />
         <SkillsSection />
-        <Section id="misc" title="Miscellaneous">
+        <Section id="misc" title="기타" titleEn="MISCELLANEOUS">
           <MiscList groups={[{ title: "경험", items: otherExperiences }]} />
         </Section>
         <NewsSection />
@@ -79,7 +83,10 @@ function Hero() {
           priority
           className="h-40 w-40 rounded-full md:h-44 md:w-44"
         />
-        <h1 className="mt-6 text-[22px] font-bold text-accent">{profile.name}</h1>
+        <h1 className="mt-6 text-[22px] font-bold text-accent">
+          {profile.nameKo}
+          <span className="ml-2 text-xs font-medium tracking-wide text-muted">{profile.name}</span>
+        </h1>
         {/* 최종 학력. 전체 학력은 CV 페이지에 있다. */}
         {/* 좁은 칸에서 중간에 접히지 않도록 "기관 · 전공"을 줄을 나눠 적고, 각 줄은 줄 바꿈하지 않는다.
             칸보다 조금 길어도 오른쪽 본문과의 간격(gap-12) 안에 들어간다. */}
@@ -94,8 +101,6 @@ function Hero() {
           id="contact"
           className="mt-4 scroll-mt-20 border-l-2 border-foreground pl-3 text-xs not-italic leading-6"
         >
-          {profile.location}
-          <br />
           Tel. <a href={`tel:${profile.tel}`}>{profile.tel}</a>
           <br />
           E.{" "}
@@ -106,7 +111,7 @@ function Hero() {
       </div>
 
       <div className="space-y-8">
-        <SubBlock title="About Me">
+        <SubBlock title="소개" titleEn="ABOUT">
           <div className="space-y-3 leading-6">
             {about.map((p) => {
               const [before, after] = p.split("{devYears}");
@@ -127,22 +132,14 @@ function Hero() {
           </div>
         </SubBlock>
 
-        <SubBlock
-          title="Experience Overview"
-          aside={
-            <InfoTip label="총 경력">
-              <CareerText kind="total" buildTime={buildTime} />
-              <br />
-              <span className="text-muted">
-                <CareerText kind="breakdown" buildTime={buildTime} />
-              </span>
-            </InfoTip>
-          }
-        >
+        <SubBlock title="경력 요약" titleEn="OVERVIEW">
+          <p className="mb-2 text-[11px] text-muted">
+            <CareerText kind="total" buildTime={buildTime} /> · <CareerText kind="breakdown" buildTime={buildTime} />
+          </p>
           <PeriodList items={experienceOverview} />
         </SubBlock>
 
-        <SubBlock title="Language">
+        <SubBlock title="어학" titleEn="LANGUAGE">
           <ul className="space-y-1">
             {languages.map((l) => (
               <li key={l.label} className="flex flex-col xs:flex-row xs:flex-wrap xs:justify-between xs:gap-x-4">
@@ -157,41 +154,28 @@ function Hero() {
   );
 }
 
-function SubBlock({ title, aside, children }: { title: string; aside?: React.ReactNode; children: React.ReactNode }) {
+function SubBlock({
+  title,
+  titleEn,
+  aside,
+  children,
+}: {
+  title: string;
+  titleEn?: string;
+  aside?: React.ReactNode;
+  children: React.ReactNode;
+}) {
   return (
     <div>
       <div className="mb-3 flex items-center gap-2">
-        <h3 className="text-[15px] font-semibold text-accent">{title}</h3>
+        <h3 className="text-[15px] font-semibold text-accent">
+          {title}
+          {titleEn && <span className="ml-1.5 text-[10px] font-medium tracking-wide text-muted">{titleEn}</span>}
+        </h3>
         {aside}
       </div>
       {children}
     </div>
-  );
-}
-
-// 작은 ⓘ 아이콘. 마우스를 올리거나 탭(포커스)하면 내용이 말풍선으로 뜬다.
-function InfoTip({ label, children }: { label: string; children: React.ReactNode }) {
-  return (
-    <span className="group relative inline-flex">
-      <button
-        type="button"
-        aria-label={label}
-        className="flex text-muted transition-colors hover:text-accent focus-visible:text-accent focus-visible:outline-none"
-      >
-        {/* 폰트마다 모양이 달라지는 ⓘ 문자 대신 같은 모양의 SVG를 쓴다. */}
-        <svg viewBox="0 0 16 16" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.3" aria-hidden>
-          <circle cx="8" cy="8" r="6.6" />
-          <path d="M8 7.2v4" strokeLinecap="round" />
-          <circle cx="8" cy="4.9" r="0.4" fill="currentColor" />
-        </svg>
-      </button>
-      <span
-        role="tooltip"
-        className="pointer-events-none absolute top-full left-1/2 z-20 mt-2 -translate-x-1/2 whitespace-nowrap rounded-md border border-line bg-surface px-3 py-1.5 text-xs text-foreground opacity-0 shadow-lg transition-opacity group-focus-within:opacity-100 group-hover:opacity-100"
-      >
-        {children}
-      </span>
-    </span>
   );
 }
 
@@ -212,7 +196,7 @@ function PeriodList({ items }: { items: { label: string; note?: string; periods:
 
 function ExperienceSection() {
   return (
-    <Section id="experience" title="Experience">
+    <Section id="experience" title="경력" titleEn="EXPERIENCE">
       <div className="space-y-12">
         {experiences.map((exp) => (
           <article key={exp.company}>
@@ -256,7 +240,7 @@ function ExperienceSection() {
 
 function ProjectsSection() {
   return (
-    <Section id="projects" title="Projects">
+    <Section id="projects" title="프로젝트" titleEn="PROJECTS">
       <ProjectList projects={projects} buildTime={buildTime} />
     </Section>
   );
@@ -264,7 +248,7 @@ function ProjectsSection() {
 
 function SkillsSection() {
   return (
-    <Section id="skills" title="Skills">
+    <Section id="skills" title="기술" titleEn="SKILLS">
       <div className="divide-y divide-line">
         {skillGroups.map((group) => (
           <div key={group.title} className="grid gap-3 py-5 first:pt-0 last:pb-0 md:grid-cols-[120px_1fr] md:gap-5">
@@ -304,7 +288,7 @@ function SkillCard({ skill }: { skill: Skill }) {
 
 function NewsSection() {
   return (
-    <Section id="news" title="News">
+    <Section id="news" title="언론 보도" titleEn="NEWS">
       <ul className="space-y-3">
         {news.map((n) => (
           <li key={n.url}>

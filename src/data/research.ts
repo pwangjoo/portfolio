@@ -158,7 +158,7 @@ const publicationList: Publication[] = [
     authorship: "1저자",
     authors: ["J Park", "H Shim"],
     title: "Realistic Fast Neural Style Transfer using Generative Adversarial Network Discriminator Loss",
-    summary: "느리고 왜곡이 생기는 기존 스타일 전이의 한계를, 미리 학습한 GAN을 활용해 빠르고 현실적인 스타일 전이로 개선",
+    summary: "느리고 왜곡이 생기는 기존 스타일 전이의 한계를 미리 학습한 GAN을 활용해 빠르고 현실적인 스타일 전이로 개선",
     summaryEn: "Allowed neural style transfer to work both realistic and fast with occupation of GAN discriminator loss.",
     abstract: {
       ko: "스타일 전이에 대한 관심은 Gatys et al.이 처음 Convolutional Neural Network를 이용해 스타일을 이전하는 방법을 제안한 이후 급격하게 증가하고 있다. 이에 추가적으로 더 빠르게 만들거나, 더 면밀하게 스타일을 이전하고자 하는 연구하는 사례 또한 늘고 있다. 하지만, 현실적인 결과물을 뽑고자 하는 연구는 많지 않다. 이 논문에서는 Generative Adversarial Network의 판별기를 이용한 현실적인 스타일 이전법을 제안하고자 한다. 이 논문은 판별기가 실제 이미지와 스타일 전이를 통해 생성된 이미지를 구분하는 능력을 가지고 있음을 보이고, 이를 이전의 스타일 전이 네트워크와 접목하여 새로운 현실적 스타일 전이가 가능함을 주장한다.",
@@ -174,9 +174,9 @@ const publicationList: Publication[] = [
     note: "프리프린트 (BMVC 2018 투고)",
     arxiv: "1802.07888",
     summary:
-      "약지도 객체 위치 추정에서 객체의 덜 두드러지는 부분까지 학습하도록 데이터 증강과 CNN 학습 기법을 개선해, 기존 최고 성능 대비 Top-1 위치 정확도 21.4–37.3% 향상",
+      "객체 위치 추정에서 객체의 덜 두드러지는 부분까지 학습하도록 데이터 증강과 CNN 학습 기법을 개선해 위치 추정 정확도 향상",
     summaryEn:
-      "Improved weakly-supervised object localization with data augmentation and refined CNN training, raising Top-1 localization accuracy by 21.4–37.3% over the state of the art.",
+      "Improved weakly-supervised object localization accuracy with data augmentation and refined CNN training.",
     abstract: {
       en: "We propose an improved technique for weakly-supervised object localization. Conventional methods have a limitation that they focus only on most discriminative parts of the target objects. The recent study addressed this issue and resolved this limitation by augmenting the training data for less discriminative parts. To this end, we employ an effective data augmentation for improving the accuracy of the object localization. In addition, we introduce improved learning techniques by optimizing Convolutional Neural Networks (CNN) based on the state-of-the-art model. Based on extensive experiments, we evaluate the effectiveness of the proposed approach both qualitatively and quantitatively. Especially, we observe that our method improves the Top-1 localization accuracy by 21.4 - 37.3% depending on configurations, compared to the current state-of-the-art technique of the weakly-supervised object localization.",
     },

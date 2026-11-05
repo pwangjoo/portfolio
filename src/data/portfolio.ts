@@ -3,14 +3,13 @@
 import { overlaps, type Period } from "@/lib/career";
 
 export const profile = {
-  name: "Park JooHyun",
+  name: "Park JooHyun (June)",
   nameKo: "박주현",
   nameEn: "JOO HYUN PARK",
   birth: "1994.12.05",
   degree: "공학 석사",
   degreeEn: "Master's Degree of Engineering",
   website: "https://pwangjoo.github.io/portfolio/",
-  location: "Seoul, South Korea",
   tel: "010-7371-0345",
   email: "pwangjoo@naver.com",
   image: "/profile.png",
@@ -18,7 +17,7 @@ export const profile = {
 
 // {devYears}는 개발 경력으로 계산한 연차로 바뀐다.
 export const about = [
-  "{devYears}년차 Full-stack 개발자입니다. 대학원에서 Computer Vision & Graphics를 전공했고, CJ대한통운에서 AI 프로젝트 기획자이자 PM으로 일을 시작했습니다. 메드고에서는 CTO로 플랫폼 개발을 총괄하며 서버 운영, 주니어 개발자 관리, QA, 기술 발표를 맡았고, 관악연구소에서는 백엔드 개발과 DB 관리를 맡았습니다.",
+  "{devYears}년차 개발자입니다. 대학원에서 머신러닝을 활용한 이미지 생성 · 인식 연구를 했고, 대기업에서 AI 프로젝트 기획자이자 PM으로 일을 시작했습니다. 메드고에서는 CTO로 플랫폼 개발을 총괄하며 서버 운영, 주니어 개발자 관리, QA, 기술 발표를 맡았고, 관악연구소에서는 백엔드 개발과 DB 관리, 프로젝트 리딩을 맡았습니다.",
   "대학원 연구로 쌓은 폭넓은 지식, 대기업 기획 업무로 익힌 비즈니스를 이해하는 업무 설계, 스타트업에서 다진 빠르고 안정적인 개발, 외주 프로젝트에서 배운 유연한 소통이 제 강점입니다. 특히 문제가 생기면 데이터로 원인을 찾아내 해결하는 문제 해결 능력이 뛰어납니다.",
 ];
 
@@ -36,9 +35,9 @@ export const education: (Period & {
 })[] = [
   {
     label: "연세대학교 대학원 석사",
-    shortLabel: "연세대학교 학·석사",
+    shortLabel: "연세대학교 공학 학·석사",
     labelEn: "YONSEI UNIVERSITY",
-    detail: "글로벌융합기술원 · Computer Vision & Graphics Lab (CVML)",
+    detail: "Computer Vision & Graphics Lab (CVML)",
     start: "2017.03",
     end: "2019.02",
     countsAsCareer: true,
@@ -151,7 +150,7 @@ export const experiences: Experience[] = [
   {
     company: "K Bio Health Care",
     companyEn: "K BIO HEALTH CARE",
-    role: "Frontend Developer",
+    role: "Markup Developer",
     contract: "프리랜서",
     summary: "웹 퍼블리싱 외주",
     periods: [{ start: "2024.07.05", end: "2024.10.04", track: "dev" }],
@@ -159,7 +158,7 @@ export const experiences: Experience[] = [
   {
     company: "CJ대한통운",
     companyEn: "CJ LOGISTICS",
-    role: "정보전략팀 IT기획 정보지능화파트",
+    role: "정보전략팀 정보지능화파트",
     summary: "AI 프로젝트 기획, 프로젝트 리딩 및 매니징",
     periods: [
       { label: "사원", start: "2019.09.23", end: "2021.04.01", track: "planning" },
@@ -262,7 +261,7 @@ export const projects: Project[] = [
   },
   {
     id: "kbio",
-    name: "헬스케어 플랫폼 웹 퍼블리싱 (Frontend)",
+    name: "헬스케어 플랫폼 웹 퍼블리싱 (Markup)",
     companies: ["K Bio Health Care"],
     track: "dev",
     contribution: "100%",
@@ -612,6 +611,11 @@ export const news = [
     title: "기업 영업 찍어주고, ELS 위험 골라내고… 금융 AI의 진화",
     source: "동아일보",
     url: "https://www.donga.com/news/Economy/article/all/20260922/134714219/2",
+  },
+  {
+    title: "바로필, 특화된 클리닉 서비스로 매출 기대",
+    source: "한국일보",
+    url: "https://news.nate.com/view/20220725n16547",
   },
   {
     title: "CJ대한통운, 화물선 도착시간 예측 시스템 개발",
