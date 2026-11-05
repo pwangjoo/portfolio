@@ -16,6 +16,7 @@ import PeriodText from "@/components/PeriodText";
 import MiscList from "@/components/MiscList";
 import Section from "@/components/Section";
 import TechTags from "@/components/TechTags";
+import Tag from "@/components/Tag";
 import CvDoc from "@/components/doc/CvDoc";
 
 export const metadata: Metadata = {
@@ -107,12 +108,9 @@ export default function CvPage() {
                         <div className="mt-2 flex flex-wrap items-center gap-1.5">
                           <TechTags keys={r.stack} />
                           {r.methods?.map((m) => (
-                            <span
-                              key={m}
-                              className="rounded border border-line px-2 py-0.5 text-[11px] text-muted"
-                            >
+                            <Tag key={m} variant="outline">
                               {m}
-                            </span>
+                            </Tag>
                           ))}
                         </div>
                         {r.description && (
@@ -166,9 +164,9 @@ export default function CvPage() {
                   {p.index && (
                     <>
                       ·{" "}
-                      <span className="rounded border border-accent/40 px-1.5 py-px text-[11px] font-semibold text-accent">
+                      <Tag variant="accent" className="font-semibold">
                         {p.index}
-                      </span>{" "}
+                      </Tag>{" "}
                     </>
                   )}
                   · {p.authorship}
@@ -206,12 +204,12 @@ export default function CvPage() {
                 {(!!p.citations || p.doi || p.arxiv) && (
                   <p className="mt-2 flex flex-wrap items-center gap-2 text-xs">
                     {!!p.citations && (
-                      <span className="rounded bg-surface px-2 py-0.5 text-muted">
-                        인용{" "}
-                        <span className="font-semibold text-foreground">
+                      <Tag>
+                        인용
+                        <span className="ml-1 font-semibold text-foreground">
                           {p.citations}
                         </span>
-                      </span>
+                      </Tag>
                     )}
                     {p.doi && (
                       <a

@@ -1,3 +1,5 @@
+import Tag from "@/components/Tag";
+
 // "Miscellaneous" 섹션 본문. 묶음 제목 옆에 항목을 태그로 나열하고, 묶음 사이는 구분선 없이 간격으로만 나눈다. Resume와 CV 페이지가 같이 쓴다.
 export default function MiscList({ groups }: { groups: { title: string; items: string[] }[] }) {
   return (
@@ -7,9 +9,7 @@ export default function MiscList({ groups }: { groups: { title: string; items: s
           <h3 className="text-[13px] font-semibold text-muted sm:pt-0.5">{g.title}</h3>
           <div className="flex flex-wrap gap-1.5">
             {g.items.map((item) => (
-              <span key={item} className="rounded bg-surface px-2 py-0.5 text-xs text-muted">
-                {item}
-              </span>
+              <Tag key={item}>{item}</Tag>
             ))}
           </div>
         </div>

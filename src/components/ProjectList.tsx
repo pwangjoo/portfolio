@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import type { Bullet, Project } from "@/data/portfolio";
 import PeriodText from "@/components/PeriodText";
 import TechTags from "@/components/TechTags";
+import Tag from "@/components/Tag";
 import TrackBadge from "@/components/TrackBadge";
 import { splitDevRoles } from "@/lib/projectName";
 
@@ -91,17 +92,13 @@ export default function ProjectList({ projects, buildTime }: { projects: Project
                     <div className="mt-2 flex flex-wrap items-center gap-1.5 pl-5">
                       <TrackBadge track={p.track} />
                       {roles.map((r) => (
-                        <span key={r} className="rounded bg-surface px-2 py-0.5 text-[11px] text-muted">
-                          {r}
-                        </span>
+                        <Tag key={r}>{r}</Tag>
                       ))}
                       {/* 개발 계열 배지와 겹치는 "개발" 영역 태그는 숨긴다. */}
                       {p.areas
                         .filter((a) => !(a === "개발" && p.track !== "planning"))
                         .map((a) => (
-                          <span key={a} className="rounded bg-surface px-2 py-0.5 text-[11px] text-muted">
-                            {a}
-                          </span>
+                          <Tag key={a}>{a}</Tag>
                         ))}
                     </div>
                   </div>
