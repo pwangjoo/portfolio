@@ -110,7 +110,7 @@ export default function ResumeDoc({ buildTime }: { buildTime: number }) {
             {skillGroups
               .filter((g) => g.category === category)
               .map((g, i) => {
-                const names = g.skills.map((s) => tech[s.tech].name).join(" / ");
+                const names = g.skills.map((s) => tech[s.tech].name).join(" · ");
                 return (
                   <DocRow
                     key={g.title}
@@ -149,8 +149,9 @@ export default function ResumeDoc({ buildTime }: { buildTime: number }) {
                     main={title}
                     sub={role}
                     // 개발 프로젝트만 오른쪽에 기술 목록을 둔다. 연구개발·기획·PM은 오른쪽 칸 없이 이름이 한 줄을 다 쓴다.
-                    right={track === "dev" && stack ? stack.map((k) => tech[k].name).join(" / ") : undefined}
-                    wideRight
+                    right={track === "dev" && stack ? stack.map((k) => tech[k].name).join(" · ") : undefined}
+                    // 기술 목록 칸은 가장 긴 줄에 맞춘 폭으로 오른쪽 끝에 두고, 남는 폭을 프로젝트명에 준다.
+                    rightWidth="70mm"
                   />
                 );
               })}

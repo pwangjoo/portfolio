@@ -6,6 +6,8 @@ import {
   me,
   misc,
   publications,
+  publicationsOf,
+  researchOf,
   researchProjects,
   researchStages,
 } from "@/data/research";
@@ -61,8 +63,8 @@ export default function CvPage() {
           </ul>
         </Section>
 
-        <Section id="projects" title="Research Projects">
-          <div className="space-y-10">
+        <Section id="projects" title="Research Projects" compact>
+          <div className="space-y-8">
             {researchStages.map(({ stage, label }) => (
               <div key={stage}>
                 <h3 className="mb-4 text-[13px] font-semibold text-muted">
@@ -72,7 +74,11 @@ export default function CvPage() {
                   {researchProjects
                     .filter((r) => r.stage === stage)
                     .map((r) => (
-                      <li key={r.title} className="border-l-2 border-line pl-4">
+                      <li
+                        key={r.id}
+                        id={`research-${r.id}`}
+                        className="scroll-mt-20 border-l-2 border-line pl-4"
+                      >
                         <div className="flex flex-col gap-0.5 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4">
                           <p className="font-medium">
                             {r.title}{" "}
@@ -95,6 +101,34 @@ export default function CvPage() {
                             </span>
                           ))}
                         </div>
+                        {r.description && (
+                          <p className="mt-2 text-[13px] leading-6 text-muted">
+                            {r.description}
+                          </p>
+                        )}
+                        {/* 이 연구로 나온 논문. 누르면 Publications의 해당 논문으로 이동한다. */}
+                        {publicationsOf(r).length > 0 && (
+                          <ul className="mt-2 space-y-0.5">
+                            {publicationsOf(r).map((p) => (
+                              <li key={p.id}>
+                                <a
+                                  href={`#pub-${p.id}`}
+                                  className="group inline-flex items-baseline gap-1.5 text-xs text-muted hover:text-accent"
+                                >
+                                  <span className="transition-colors group-hover:text-accent">
+                                    →
+                                  </span>
+                                  <span>
+                                    {p.title}{" "}
+                                    <span className="opacity-70">
+                                      ({p.venue} {p.year})
+                                    </span>
+                                  </span>
+                                </a>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
                       </li>
                     ))}
                 </ul>
@@ -103,18 +137,39 @@ export default function CvPage() {
           </div>
         </Section>
 
-        <Section id="publications" title="Publications">
+        <Section id="publications" title="Publications" compact>
           <ul className="space-y-4">
             {publications.map((p) => (
               <li
-                key={p.title}
-                className="rounded-lg border border-line px-4 py-4"
+                key={p.id}
+                id={`pub-${p.id}`}
+                className="scroll-mt-20 rounded-lg border border-line px-4 py-4"
               >
                 <p className="text-xs text-muted">
                   <span className="font-semibold text-accent">
                     {p.venue} {p.year}
                   </span>{" "}
+                  {p.index && (
+                    <>
+                      ·{" "}
+                      <span className="rounded border border-accent/40 px-1.5 py-px text-[11px] font-semibold text-accent">
+                        {p.index}
+                      </span>{" "}
+                    </>
+                  )}
                   · {p.authorship}
+                  {/* 이 논문이 나온 연구 프로젝트로 돌아가는 링크. */}
+                  {researchOf(p.id).map((r) => (
+                    <span key={r.id}>
+                      {" · "}
+                      <a
+                        href={`#research-${r.id}`}
+                        className="hover:text-accent hover:underline"
+                      >
+                        {r.title} 연구
+                      </a>
+                    </span>
+                  ))}
                 </p>
                 <p className="mt-1.5 font-medium leading-6">{p.title}</p>
                 <p className="mt-1 text-xs text-muted">
@@ -183,16 +238,15 @@ export default function CvPage() {
             ))}
           </ul>
           <p className="mt-3 text-[11px] text-muted">
-            인용 수는 {citationSource} 기준이며 {citationsAsOf}에 조회했습니다.
-            검색 서비스마다 집계 방식이 달라 수치가 다를 수 있습니다.
+            인용 수 기준 - {citationSource} (기준 일자: {citationsAsOf})
           </p>
         </Section>
 
-        <Section id="misc" title="Miscellaneous">
+        <Section id="misc" title="Miscellaneous" compact>
           <MiscList groups={misc} />
         </Section>
 
-        <footer className="mt-16 flex gap-4 border-t border-line pt-6 text-xs text-muted">
+        <footer className="mt-12 flex gap-4 border-t border-line pt-6 text-xs text-muted">
           <a href="#top" className="hover:text-accent">
             ↑ To the Top
           </a>

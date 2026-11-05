@@ -27,7 +27,7 @@ export default function CvDoc({ buildTime }: { buildTime: number }) {
                   left={formatDocPeriod(r)}
                   main={r.title}
                   sub={r.titleEn.toUpperCase()}
-                  right={[...r.stack.map((k) => tech[k].name), ...(r.methods ?? [])].join(" / ")}
+                  right={[...r.stack.map((k) => tech[k].name), ...(r.methods ?? [])].join(" · ")}
                 />
               ))}
           </div>
@@ -42,7 +42,7 @@ export default function CvDoc({ buildTime }: { buildTime: number }) {
                 <p>
                   {p.venue} {p.year}
                 </p>
-                <p>{p.authorship}</p>
+                <p>{[p.index, p.authorship].filter(Boolean).join(" · ")}</p>
                 {!!p.citations && <p>인용 {p.citations}회</p>}
                 <p className="text-[#555]">
                   {p.authors.map((a, i) => (

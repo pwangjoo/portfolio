@@ -88,6 +88,7 @@ export function DocRow({
   right,
   wideRight = false,
   narrowMain = false,
+  rightWidth,
 }: {
   left: React.ReactNode;
   main: React.ReactNode;
@@ -96,9 +97,12 @@ export function DocRow({
   wideRight?: boolean;
   // 가운데 칸이 짧을 때(회사명 등) 고정 폭으로 좁혀 오른쪽 칸을 넓힌다.
   narrowMain?: boolean;
+  // 오른쪽 칸을 이 고정 폭으로 두고 나머지를 가운데 칸에 준다. 오른쪽 칸이 페이지 오른쪽 끝에 붙는다.
+  rightWidth?: string;
 }) {
   return (
     <div
+      style={rightWidth ? { gridTemplateColumns: `6.75rem 1fr ${rightWidth}` } : undefined}
       className={`grid break-inside-avoid gap-x-4 ${narrowMain ? "grid-cols-[6.75rem_9.5rem_1fr]" : wideRight ? "grid-cols-[6.75rem_2fr_3fr]" : "grid-cols-[6.75rem_1fr_1fr]"}`}
     >
       <div className="tabular-nums text-[#333]">{left}</div>
