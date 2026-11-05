@@ -7,6 +7,8 @@ const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 const nextConfig: NextConfig = {
   // 정적 HTML로 빌드해 out/ 디렉터리를 그대로 호스팅한다.
   output: "export",
+  // /research/ 를 research/index.html로 내보내 GitHub Pages에서 그대로 열리게 한다.
+  trailingSlash: true,
   basePath,
   images: { unoptimized: true },
 };

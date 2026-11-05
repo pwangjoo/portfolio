@@ -12,6 +12,13 @@ const toDayIndex = (date: string, edge: "start" | "end") => {
   return (edge === "start" ? Date.UTC(y, m - 1, 1) : Date.UTC(y, m, 0)) / DAY_MS;
 };
 
+// 두 기간이 하루라도 겹치는지. 진행 중인 기간(end 없음)은 끝이 열려 있다고 본다.
+export function overlaps(a: Period, b: Period) {
+  const aEnd = a.end ? toDayIndex(a.end, "end") : Infinity;
+  const bEnd = b.end ? toDayIndex(b.end, "end") : Infinity;
+  return toDayIndex(a.start, "start") <= bEnd && toDayIndex(b.start, "start") <= aEnd;
+}
+
 export function formatPeriod({ start, end }: Period) {
   return `${start} - ${end ?? "현재"}`;
 }

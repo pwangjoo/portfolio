@@ -1,13 +1,14 @@
 "use client";
 
-// 브라우저 인쇄 창을 연다. "PDF로 저장"을 고르면 인쇄용 스타일(globals.css의 @media print)이 적용된 PDF가 된다.
-export default function PrintButton() {
+// 브라우저 인쇄 창을 연다. 인쇄할 때는 페이지마다 숨겨둔 문서형 레이아웃(ResumeDoc / CvDoc)만 보이므로,
+// "PDF로 저장"을 고르면 그 문서가 PDF가 된다.
+export default function PrintButton({ label }: { label: string }) {
   return (
     <button
       type="button"
       onClick={() => window.print()}
-      aria-label="PDF로 저장"
-      title="PDF로 저장"
+      aria-label={label}
+      title={label}
       className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md text-muted transition-colors hover:bg-surface hover:text-foreground"
     >
       <svg viewBox="0 0 16 16" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.3" aria-hidden>

@@ -106,7 +106,7 @@ body {
 /* PDF 저장(인쇄)용 스타일. 화면 테마와 상관없이 흰 배경의 라이트 테마로 A4에 맞춘다. */
 @page {
   size: A4;
-  margin: 14mm 14mm 16mm;
+  margin: 8mm 10mm 10mm;
 }
 
 @media print {
@@ -131,9 +131,5 @@ body {
   :root[data-theme="dark"] .invert-on-dark,
   :root:not([data-theme]) .invert-on-dark {
     filter: none;
-  }
-
-  .project-details::details-content {
-    transition: none;
   }
 }

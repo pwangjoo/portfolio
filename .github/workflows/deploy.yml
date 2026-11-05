@@ -4,9 +4,13 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  # 매주 월요일 09:00(KST)에 Google Scholar 인용 수를 갱신해 다시 배포한다.
+  schedule:
+    - cron: "0 0 * * 1"
 
 permissions:
-  contents: read
+  # 바뀐 인용 수(citations.json)를 저장소에 커밋하기 위해 쓰기 권한이 필요하다.
+  contents: write
   pages: write
   id-token: write
 
@@ -26,6 +30,21 @@ jobs:
       - id: pages
         uses: actions/configure-pages@v5
       - run: npm ci
+      # push 때는 저장소에 저장된 값을 쓰고, 주기·수동 실행 때만 SerpAPI를 호출해 무료 한도를 아낀다.
+      - id: citations
+        if: github.event_name != 'push'
+        run: node scripts/update-citations.mjs
+        env:
+          SERPAPI_KEY: ${{ secrets.SERPAPI_KEY }}
+      # 수치가 바뀐 경우에만 커밋한다. GITHUB_TOKEN으로 한 push는 이 워크플로를 다시 실행하지 않는다.
+      - if: steps.citations.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/data/citations.json
+          git commit -m "[chore] Google Scholar 인용 수 갱신"
+          git pull --rebase
+          git push
       # username.github.io 저장소면 base_path가 비어 있고, 그 외에는 "/repo이름"이 된다.
       - run: npm run build
         env:
